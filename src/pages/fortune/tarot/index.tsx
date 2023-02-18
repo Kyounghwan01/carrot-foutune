@@ -60,6 +60,11 @@ const Index = () => {
           )}
         </TarotCardWapper>
       </Content>
+      <div style={{ display: "none" }}>
+        {tarotCardList.map(card => (
+          <img key={card.id} src={`/tarot/${card.id}.png`} alt="" />
+        ))}
+      </div>
       <BottomFixedButton
         title={"오늘의 타로 결과 보기"}
         disabled={!selectedCard}
