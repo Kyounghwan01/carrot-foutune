@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import styled from "styled-components";
-import Header from "../../../components/Header";
+import Header from "@/components/Header";
 import { Title } from "../hand-line";
 import Card from "./Card";
 import tar from "./tarot.json";
-import BottomFixedButton from "../../../components/BottomFixedButton";
+import BottomFixedButton from "@/components/BottomFixedButton";
 
 export interface Itarot {
   idx: number;
@@ -42,7 +42,7 @@ const Index = () => {
             신중하게 생각한 다음 <br />
             1장의 카드를 선택하세요!
           </span>
-          <img src="/tarot-main.png" />
+          <img src="/tarot-main.png" alt="" />
         </Title>
 
         <TarotCardWapper>

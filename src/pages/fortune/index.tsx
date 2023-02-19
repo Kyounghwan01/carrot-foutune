@@ -20,7 +20,10 @@ const Index = () => {
         <div className="content-desc">🍀 대길(大吉)이 찾아올 거예요!</div>
 
         <div className="content-list">
-          <img src="/today-fortune.png" />
+          <img
+            src="/today-fortune.png"
+            onClick={() => Router.push("/fortune/luck")}
+          />
           <img src="/tarot.png" onClick={() => Router.push("/fortune/tarot")} />
           <img
             src="/hand-line.png"
