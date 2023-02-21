@@ -8,7 +8,7 @@ export default function Home() {
       </div>
 
       <div
-        style={{ position: "fixed", top: "60px", right: "10px", zIndex: 100 }}
+        style={{ position: "fixed", top: "80px", right: "10px", zIndex: 100 }}
         onClick={() => Router.push("/fortune")}
       >
         <img width={60} height={92} src="/main-floating.png" alt="" />
