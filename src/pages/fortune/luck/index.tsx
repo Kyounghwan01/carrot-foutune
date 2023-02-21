@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import Router from 'next/router';
 import styled from "styled-components";
 import Header from "@/components/Header";
 import { Title } from "@/pages/fortune/hand-line";
@@ -6,34 +7,107 @@ import BottomFixedButton from "@/components/BottomFixedButton";
 import SelectBox from "@/components/SelectBox";
 import Radio from "@/components/Radio";
 
+interface IList { title: string, value: string, disabled?: boolean }
+
 const data = {
   time: [
-    " 모름",
-    " 23:30-01:29 자시(子時)",
-    " 01:30-03:29 축시(丑時)",
-    " 03:30-05:29 인시(寅時)",
-    " 05:30-07:29 묘시(卯時)",
-    " 07:30-09:29 진시(辰時)",
-    " 09:30-11:29 사시(巳時)",
-    " 11:30-13:29 오시(午時)",
-    " 13:30-15:29 미시(未時)",
-    " 15:30-17:29 신시(申時)",
-    " 17:30-19:29 유시(酉時)",
-    " 19:30-21:29 술시(戌時)",
-    " 21:30-23:29 해시(亥時)"
+    { title: "-", value: '', disabled: true },
+    { title: "모름", value: '0', },
+    { title: "23:30-01:29 자시(子時)", value: '1', },
+    { title: "01:30-03:29 축시(丑時)", value: '2', },
+    { title: "03:30-05:29 인시(寅時)", value: '3', },
+    { title: "05:30-07:29 묘시(卯時)", value: '4', },
+    { title: "07:30-09:29 진시(辰時)", value: '5', },
+    { title: "09:30-11:29 사시(巳時)", value: '6', },
+    { title: "11:30-13:29 오시(午時)", value: '7', },
+    { title: "13:30-15:29 미시(未時)", value: '8', },
+    { title: "15:30-17:29 신시(申時)", value: '9', },
+    { title: "17:30-19:29 유시(酉時)", value: '10', },
+    { title: "19:30-21:29 술시(戌時)", value: '11', },
+    { title: "21:30-23:29 해시(亥時)", value: '12', },
+  ],
+  sunLunar: [
+    { title: "-", value: '', disabled: true },
+    { title: '양력', value: 'sun' },
+    { title: '음력', value: 'lunar' }
+  ],
+  month: [
+    { title: "-", value: '', disabled: true },
+    { title: '1월', value: '1' },
+    { title: '2월', value: '2' },
+    { title: '3월', value: '3' },
+    { title: '4월', value: '4' },
+    { title: '5월', value: '5' },
+    { title: '6월', value: '6' },
+    { title: '7월', value: '7' },
+    { title: '8월', value: '8' },
+    { title: '9월', value: '9' },
+    { title: '10월', value: '10' },
+    { title: '11월', value: '11' },
+    { title: '12월', value: '12' },
   ]
 };
 
 const Index = () => {
-  const [yearList, setYearList] = useState<number[]>([]);
+  const [yearList, setYearList] = useState<IList[]>([]);
+  const [dayList, setDayList] = useState<IList[]>([{ title: "-", value: '', disabled: true }]);
   const [genderType, setGenderType] = useState("");
+  const [sunCheck, setSunCheck] = useState('');
+  const [yearCheck, setYearCheck] = useState('');
+  const [timeCheck, setTimeCheck] = useState('');
+  const [monthCheck, setMonthCheck] = useState('');
+  const [dayCheck, setDayCheck] = useState('');
+
   useEffect(() => {
-    const yearList = [];
+    const yearList: IList[] = [{ title: "-", value: '', disabled: true }];
     for (let i = new Date().getFullYear(); i >= 1900; i--) {
-      yearList.push(i);
+      yearList.push({ title: String(i), value: String(i) });
     }
     setYearList(yearList);
   }, []);
+
+  useEffect(() => {
+    if (!monthCheck) return;
+    const days: IList[] = [{ title: "-", value: '', disabled: true }];
+    setDayCheck('');
+
+    let lastDays = 0;
+    switch (monthCheck) {
+      case '1':
+      case '3':
+      case '5':
+      case '7':
+      case '8':
+      case '10':
+      case '12':
+        lastDays = 31;
+        break;
+      case '2':
+        lastDays = 28;
+        break;
+      case '4':
+      case '6':
+      case '6':
+      case '9':
+      case '11':
+        lastDays = 30;
+        break;
+      default:
+        lastDays = 31;
+        break;
+    }
+
+    for (let i = 1; i <= lastDays; i++) {
+      days.push({ title: `${i}일`, value: String(i) });
+    }
+
+    setDayList(days);
+  }, [monthCheck]);
+
+  const btnValidation = useMemo(() => {
+    return [yearCheck, timeCheck, monthCheck, dayCheck, genderType, sunCheck].every(data => data);
+  }, [yearCheck, timeCheck, monthCheck, dayCheck, genderType, sunCheck]);
+
   return (
     <div>
       <Header isBack={true} title={"오늘의 운세"} />
@@ -50,20 +124,20 @@ const Index = () => {
         <div>
           <SelectLabel>생년월일</SelectLabel>
           <YearWrapper>
-            <SelectBox />
-            <SelectBox />
-            <SelectBox />
+            <SelectBox optionList={yearList} value={yearCheck} handleChangeSelect={(e) => setYearCheck(e.currentTarget.value)} />
+            <SelectBox optionList={data.month} value={monthCheck} handleChangeSelect={(e) => setMonthCheck(e.currentTarget.value)} />
+            <SelectBox optionList={dayList} value={dayCheck} handleChangeSelect={(e) => setDayCheck(e.currentTarget.value)} />
           </YearWrapper>
         </div>
 
         <div>
           <SelectLabel>양력/음력</SelectLabel>
-          <SelectBox />
+          <SelectBox optionList={data.sunLunar} value={sunCheck} handleChangeSelect={(e) => setSunCheck(e.currentTarget.value)} />
         </div>
 
         <div>
           <SelectLabel>태어난 시간</SelectLabel>
-          <SelectBox />
+          <SelectBox optionList={data.time} value={timeCheck} handleChangeSelect={(e) => setTimeCheck(e.currentTarget.value)} />
         </div>
 
         <div>
@@ -83,11 +157,11 @@ const Index = () => {
         </div>
       </Content>
 
-      {/* <BottomFixedButton
+      <BottomFixedButton
         title={"동의하고 운세 결과 보기"}
-        disabled={!selectedCard}
-        onClick={() => Router.push(`/fortune/luck/result/1~5까지 아무거나`)}
-      /> */}
+        disabled={!btnValidation}
+        onClick={() => Router.push(`/fortune/luck/result/${Math.floor(Math.random() * 3)}`)}
+      />
     </div>
   );
 };

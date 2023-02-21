@@ -1,16 +1,25 @@
 import styled from "styled-components";
-const Index = () => {
+
+interface ISelectBox {
+  optionList: {
+    title: string;
+    value: string;
+    disabled?: boolean;
+  }[];
+  handleChangeSelect: (event: { currentTarget: { value: string } }) => void;
+  value: string;
+}
+
+const Index = ({ optionList, handleChangeSelect, value }: ISelectBox) => {
   return (
     <SelectBoxWrapper>
       <div className="selectBox">
-        <select name="fruits" className="select">
-          <option disabled selected>
-            fruits 🍊
-          </option>
-          <option value="apple">apple</option>
-          <option value="orange">orange</option>
-          <option value="grape">grape</option>
-          <option value="melon">melon</option>
+        <select className="select" onChange={handleChangeSelect} value={value}>
+          {
+            optionList.map(option => (
+              <option key={option.value} value={option.value} disabled={option.disabled} >{option.title}</option>
+            ))
+          }
         </select>
         <span className="icoArrow">
           <img src="/arrow-bottom.png" alt="" />
