@@ -22,7 +22,7 @@ interface ILuck {
 const paths = Array(5)
   .fill("")
   .map((_, i) => {
-    return { params: { idx: String(i) } };
+    return { params: { idx: String(i + 1) } };
   });
 
 const Index = ({luck}: {luck: ILuck}) => {

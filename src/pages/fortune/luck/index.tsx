@@ -160,7 +160,7 @@ const Index = () => {
       <BottomFixedButton
         title={"동의하고 운세 결과 보기"}
         disabled={!btnValidation}
-        onClick={() => Router.push(`/fortune/luck/result/${Math.floor(Math.random() * 3)}`)}
+        onClick={() => Router.push(`/fortune/luck/result/${Math.floor(Math.random()*5+1)}`)}
       />
     </div>
   );
