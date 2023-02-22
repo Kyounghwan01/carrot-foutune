@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { GetStaticPaths } from "next";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
+import styled from "styled-components";
 import Header from "@/components/Header";
 import BottomFixedButton from "@/components/BottomFixedButton";
-import styled from "styled-components";
+import Accordion from "@/components/Accordion";
 import { Title } from "@/pages/fortune/hand-line";
-import luck from '../luck.json';
+import luck from "../luck.json";
+import { data } from "@/pages/fortune/luck";
 
 interface ILuck {
   idx: number;
@@ -26,12 +28,23 @@ const paths = Array(5)
   });
 
 const Index = ({ luck }: { luck: ILuck }) => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
+  const [myLuckData, setMyLuckData] = useState("");
 
   useEffect(() => {
+    const dateTimeIndex = data.time.findIndex(
+      time => time.value === router.query.time
+    );
+    const luckData = `${router.query.date} / ${
+      router.query.sun === "lunar" ? "음력" : "양력"
+    } / ${data.time[dateTimeIndex].title} / ${
+      router.query.gender === "male" ? "남성" : "여성"
+    }`;
+    setMyLuckData(luckData);
     setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
+    }, 1500);
   }, []);
 
   return (
@@ -41,7 +54,8 @@ const Index = ({ luck }: { luck: ILuck }) => {
           <div className="wrap">
             <img src="/fortune-loading.png" width="190px" height="147px" />
             <p>
-              대길이가 오늘의 행운을<br />
+              대길이가 오늘의 행운을
+              <br />
               가져오고 있어요!
             </p>
           </div>
@@ -49,9 +63,6 @@ const Index = ({ luck }: { luck: ILuck }) => {
       ) : (
         <div>
           <Header isBack={true} title={"오늘의 운세"} />
-          {JSON.stringify(luck)}
-          {/* todo: loading페이지, 운세 result 페이지 css */}
-
           <Content>
             <Title>
               <span>
@@ -61,6 +72,64 @@ const Index = ({ luck }: { luck: ILuck }) => {
               </span>
               <img src="/fortune-title.png" alt="" />
             </Title>
+
+            <Accordion
+              title="내 사주 정보"
+              Content={<span>{myLuckData}</span>}
+              isCanOpen={false}
+              isOpenDefault={true}
+              onClick={Router.back}
+            />
+
+            <TimeSet>
+              {new Date().getMonth() + 1}월 {new Date().getDate()}일 운세
+            </TimeSet>
+
+            <Mgt18>
+              <Accordion
+                title="오늘의 미니운세"
+                Content={<span>{luck.mini_luck}</span>}
+                isCanOpen={true}
+                isOpenDefault={true}
+              />
+            </Mgt18>
+
+            <Mgt18>
+              <Accordion
+                title="오늘의 총운"
+                Content={<span>{luck.total_luck}</span>}
+                isCanOpen={true}
+                isOpenDefault={false}
+              />
+            </Mgt18>
+
+            <Mgt18>
+              <Accordion
+                title="오늘의 성공/재물운"
+                Content={<span>{luck.money_luck}</span>}
+                isCanOpen={true}
+                isOpenDefault={false}
+              />
+            </Mgt18>
+
+            <Mgt18>
+              <Accordion
+                title="오늘의 행운예감 힌트"
+                Content={
+                  <LuckList>
+                    <span>{luck.hint}</span>
+                    <ul>
+                      <li>행운의 색상: {luck.color}</li>
+                      <li>행운의 색상: {luck.number}</li>
+                      <li>행운의 색상: {luck.direction}</li>
+                      <li>행운의 색상: {luck.name}</li>
+                    </ul>
+                  </LuckList>
+                }
+                isCanOpen={true}
+                isOpenDefault={false}
+              />
+            </Mgt18>
           </Content>
 
           <BottomFixedButton
@@ -75,9 +144,8 @@ const Index = ({ luck }: { luck: ILuck }) => {
 };
 
 const Content = styled.div`
-  padding: 80px 20px 80px;
+  padding: 80px 20px 180px;
 `;
-
 
 const LoadingWarpper = styled.div`
   height: 100vh;
@@ -102,7 +170,27 @@ const LoadingWarpper = styled.div`
     line-height: 24px;
     letter-spacing: -1px;
   }
-`
+`;
+
+const TimeSet = styled.div`
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: -1px;
+  color: #ff5000;
+  margin: 25px 0 16px;
+`;
+
+const Mgt18 = styled.div`
+  margin-top: 18px;
+`;
+
+const LuckList = styled.div`
+  ul {
+    margin: 20px 0 20px 10px;
+    list-style: disc;
+  }
+`;
 
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
@@ -116,6 +204,5 @@ export async function getStaticProps({ params }: { params: ILuck }) {
     props: { luck: luck.filter(el => el.idx === Number(params.idx))[0] }
   };
 }
-
 
 export default Index;
