@@ -15,7 +15,7 @@ interface IList {
 
 export const data = {
   time: [
-    { title: "-", value: "", disabled: true },
+    { title: "태어난 시간 대", value: "", disabled: true },
     { title: "모름", value: "0" },
     { title: "23:30-01:29 자시(子時)", value: "1" },
     { title: "01:30-03:29 축시(丑時)", value: "2" },
@@ -31,12 +31,12 @@ export const data = {
     { title: "21:30-23:29 해시(亥時)", value: "12" }
   ],
   sunLunar: [
-    { title: "-", value: "", disabled: true },
+    { title: "양력/음력", value: "", disabled: true },
     { title: "양력", value: "sun" },
     { title: "음력", value: "lunar" }
   ],
   month: [
-    { title: "-", value: "", disabled: true },
+    { title: "출생월", value: "", disabled: true },
     { title: "1월", value: "1" },
     { title: "2월", value: "2" },
     { title: "3월", value: "3" },
@@ -55,7 +55,7 @@ export const data = {
 const Index = () => {
   const [yearList, setYearList] = useState<IList[]>([]);
   const [dayList, setDayList] = useState<IList[]>([
-    { title: "-", value: "", disabled: true }
+    { title: "출생일", value: "", disabled: true }
   ]);
   const [genderType, setGenderType] = useState("");
   const [sunCheck, setSunCheck] = useState("");
@@ -65,7 +65,7 @@ const Index = () => {
   const [dayCheck, setDayCheck] = useState("");
 
   useEffect(() => {
-    const yearList: IList[] = [{ title: "-", value: "", disabled: true }];
+    const yearList: IList[] = [{ title: "출생년", value: "", disabled: true }];
     for (let i = new Date().getFullYear(); i >= 1900; i--) {
       yearList.push({ title: String(i), value: String(i) });
     }
@@ -74,7 +74,7 @@ const Index = () => {
 
   useEffect(() => {
     if (!monthCheck) return;
-    const days: IList[] = [{ title: "-", value: "", disabled: true }];
+    const days: IList[] = [{ title: "출생일", value: "", disabled: true }];
     setDayCheck("");
 
     let lastDays = 0;
@@ -211,6 +211,11 @@ const Index = () => {
             />
           </GenderWarpper>
         </div>
+
+        <div className="footbox">
+          <span>[필수] 개인정보 수집/이용 동의</span>
+          <img src="/arrow-right.png" width={5} />
+        </div>
       </Content>
 
       <BottomFixedButton
@@ -224,6 +229,23 @@ const Index = () => {
 
 const Content = styled.div`
   padding: 80px 20px 140px;
+  .footbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 92px;
+    width: calc(100vw - 40px);
+    span {
+      font-size: 14px;
+      line-height: 21px;
+      letter-spacing: -1px;
+      color: #808080;
+    }
+    img {
+      margin-right: 10px;
+    }
+  }
 `;
 
 const YearWrapper = styled.div`

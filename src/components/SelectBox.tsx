@@ -48,13 +48,13 @@ const SelectBoxWrapper = styled.div`
     padding: 10px;
     -webkit-appearance: none;
     -moz-appearance: none;
-    font-size: 16px;
+    font-size: 12px;
     color: black;
   }
   .selectBox .select option {
     color: #fff;
     padding: 3px 0;
-    font-size: 16px;
+    font-size: 12px;
     color: black;
   }
   .selectBox .icoArrow {

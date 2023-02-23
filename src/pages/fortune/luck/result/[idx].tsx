@@ -158,6 +158,7 @@ const LoadingWarpper = styled.div`
   align-items: center;
   .wrap {
     position: relative;
+    top: -20px
   }
   img {
     animation-name: spin;
