@@ -134,7 +134,7 @@ const Index = () => {
       5;
 
     Router.push({
-      pathname: `/fortune/luck/result/${String(randomMath)}`,
+      pathname: `/fortune/luck/result/${String(randomMath + 1)}`,
       query: {
         date: `${yearCheck}년 ${monthCheck}월 ${dayCheck}일`,
         sun: sunCheck,
@@ -223,7 +223,7 @@ const Index = () => {
 };
 
 const Content = styled.div`
-  padding: 80px 20px 80px;
+  padding: 80px 20px 140px;
 `;
 
 const YearWrapper = styled.div`

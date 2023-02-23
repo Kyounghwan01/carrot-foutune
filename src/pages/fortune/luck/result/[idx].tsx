@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { GetStaticPaths } from "next";
 import Router, { useRouter } from "next/router";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Header from "@/components/Header";
 import BottomFixedButton from "@/components/BottomFixedButton";
 import Accordion from "@/components/Accordion";
@@ -33,19 +33,22 @@ const Index = ({ luck }: { luck: ILuck }) => {
   const [myLuckData, setMyLuckData] = useState("");
 
   useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    if (!router.query.date) return;
+
     const dateTimeIndex = data.time.findIndex(
       time => time.value === router.query.time
     );
-    const luckData = `${router.query.date} / ${
-      router.query.sun === "lunar" ? "음력" : "양력"
-    } / ${data.time[dateTimeIndex].title} / ${
-      router.query.gender === "male" ? "남성" : "여성"
-    }`;
+    const luckData = `${router.query.date} / ${router.query.sun === "lunar" ? "음력" : "양력"
+      } / ${data.time[dateTimeIndex].title} / ${router.query.gender === "male" ? "남성" : "여성"
+      }`;
     setMyLuckData(luckData);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-  }, []);
+  }, [router.query]);
 
   return (
     <>
@@ -157,10 +160,14 @@ const LoadingWarpper = styled.div`
     position: relative;
   }
   img {
-    position: relative;
-    left: 100px;
-    transform: translateX(-200px);
-    transition: all 1s ease-in;
+    animation-name: spin;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    @keyframes spin {
+      0% { transform: translate(0, 0px); }
+      50% { transform: translate(0, 20px); }
+      100% { transform: translate(0, 0px); }
+    }
   }
   p {
     margin-top: 20px;
