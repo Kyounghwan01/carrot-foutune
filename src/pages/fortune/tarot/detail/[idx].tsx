@@ -17,7 +17,7 @@ const paths = Array(22)
 const Index = ({ tarot }: { tarot: Itarot }) => {
   return (
     <>
-      <Header isBack={true} title={"오늘의 타로"} />
+      <Header isBack={true} title={"오늘의 타로"} isShare={true} />
       <Content>
         <Title>
           <span>

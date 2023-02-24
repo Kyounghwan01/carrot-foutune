@@ -1,7 +1,7 @@
 import Router from "next/router";
 import styled from "styled-components";
 
-const Index = ({ isBack, title }: { isBack?: boolean; title: string }) => {
+const Index = ({ isBack, title, isShare }: { isBack?: boolean; title: string, isShare?: boolean }) => {
   return (
     <HeaderBlock>
       {isBack ? (
@@ -12,7 +12,11 @@ const Index = ({ isBack, title }: { isBack?: boolean; title: string }) => {
         <div style={{ width: "10px" }}></div>
       )}
       <div className="title">{title}</div>
-      <div style={{ width: "10px" }}></div>
+      <>
+        {isShare ? <div className="share">
+          <img src="/share.png" width={'25px'} />
+        </div> : <div style={{ width: "10px" }} />}
+      </>
     </HeaderBlock>
   );
 };
@@ -39,6 +43,10 @@ const HeaderBlock = styled.div`
   .title {
     font-weight: bold;
     text-align: center;
+  }
+  .share {
+    text-align: right;
+    margin: 15px;
   }
 `;
 

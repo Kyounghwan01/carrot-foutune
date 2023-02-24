@@ -65,7 +65,7 @@ const Index = ({ luck }: { luck: ILuck }) => {
         </LoadingWarpper>
       ) : (
         <div>
-          <Header isBack={true} title={"오늘의 운세"} />
+          <Header isBack={true} title={"오늘의 운세"} isShare={true} />
           <Content>
             <Title>
               <span>
