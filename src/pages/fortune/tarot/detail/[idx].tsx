@@ -33,6 +33,11 @@ const Index = ({ tarot }: { tarot: Itarot }) => {
         </CardImg>
 
         <CardStoryTailling>
+          <p>오늘의 타로</p>
+          <span>{tarot.result}</span>
+        </CardStoryTailling>
+
+        <CardStoryTailling>
           <p>{tarot.name}카드 스토리텔링</p>
           <span>{tarot.story}</span>
         </CardStoryTailling>
@@ -45,11 +50,6 @@ const Index = ({ tarot }: { tarot: Itarot }) => {
         <CardStoryTailling>
           <p>키워드</p>
           <span>{tarot.keyword}</span>
-        </CardStoryTailling>
-
-        <CardStoryTailling>
-          <p>오늘의 타로</p>
-          <span>{tarot.result}</span>
         </CardStoryTailling>
       </Content>
 

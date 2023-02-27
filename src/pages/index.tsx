@@ -1,4 +1,5 @@
 import Router from "next/router";
+import styled from 'styled-components';
 
 export default function Home() {
   return (
@@ -7,12 +8,9 @@ export default function Home() {
         <img width={"100%"} src="/main-header.png" alt="header" />
       </div>
 
-      <div
-        style={{ position: "fixed", top: "80px", right: "10px", zIndex: 100 }}
-        onClick={() => Router.push("/fortune")}
-      >
-        <img width={60} height={92} src="/main-floating.png" alt="" />
-      </div>
+      <LogoImages onClick={() => Router.push("/fortune")}>
+        <img className="blink" width={70} height={100} src="/main-floating.png" alt="" />
+      </LogoImages>
 
       <div
         style={{
@@ -33,3 +31,19 @@ export default function Home() {
     </div>
   );
 }
+
+const LogoImages = styled.div`
+  position: fixed;
+  top: 80px;
+  right: 10px;
+  z-index: 100;
+  @keyframes blink-effect {
+  50% {
+      opacity: 0;
+    }
+  }
+
+  .blink {
+    animation: blink-effect 1.3s step-end infinite;
+  }
+`

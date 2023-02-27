@@ -228,13 +228,12 @@ const Index = () => {
 };
 
 const Content = styled.div`
-  padding: 80px 20px 140px;
+  padding: 80px 20px 160px;
   .footbox {
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    bottom: 92px;
     width: calc(100vw - 40px);
     span {
       font-size: 14px;

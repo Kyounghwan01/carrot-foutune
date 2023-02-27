@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Header from "@/components/Header";
 import BottomFixedButton from "@/components/BottomFixedButton";
 import Radio from "@/components/Radio";
-import { Router } from "next/router";
 
 const Index = () => {
   const [type, setType] = useState("hand");
@@ -101,7 +100,7 @@ const Index = () => {
               </div>
               <div className="desc">
                 <input type="file" name="file" id="file" accept="image/*" ref={galleryRef} multiple={false} onChange={handleFile} />
-                <img src={`/${type === 'face' ? 'face-mock' : 'hand-mock'}.png`} />
+                <img src={`/${type === 'face' ? 'face-mock' : 'hand-mock'}.png`} onClick={goGallery}  />
                 <p>{type === 'face' ? '관상을 보기 위해, 얼굴 정면 사진이 필요해요!' : '손금을 보기 위해,  한 손 바닥 사진이 필요해요!'}</p>
               </div>
             </>
@@ -132,7 +131,7 @@ const Index = () => {
 export default Index;
 
 const Content = styled.div`
-  padding: 80px 20px 40px;
+  padding: 80px 20px;
   text-align: center;
   .desc {
     padding: 82px 0px;
@@ -164,6 +163,9 @@ const Content = styled.div`
   }
   .pre-view {
     padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .pre-view-image {
       width: 100px;
       height: 130px;
